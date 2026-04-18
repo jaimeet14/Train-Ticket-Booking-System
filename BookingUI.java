@@ -7,6 +7,8 @@ public class BookingUI extends JFrame {
     private JLabel seatsLabel;
     private JTextField nameField;
 
+    private int seats = 5;
+
     public BookingUI() {
 
         setTitle("Train Ticket Booking System");
@@ -19,7 +21,7 @@ public class BookingUI extends JFrame {
         JButton bookButton = new JButton("Book Ticket");
         JButton cancelButton = new JButton("Cancel Ticket");
 
-        seatsLabel = new JLabel("Seats Available: Demo");
+        seatsLabel = new JLabel("Seats Available: " + seats);
         outputArea = new JTextArea(10, 30);
 
         add(new JLabel("Enter Name:"));
@@ -29,13 +31,22 @@ public class BookingUI extends JFrame {
         add(seatsLabel);
         add(new JScrollPane(outputArea));
 
-        // Dummy actions (since backend not included)
+        // BOOK BUTTON
         bookButton.addActionListener(e -> {
-            outputArea.append(nameField.getText() + " clicked BOOK\n");
+            if (seats > 0) {
+                seats--;
+                outputArea.append(nameField.getText() + " booked ticket\n");
+            } else {
+                outputArea.append("No seats available\n");
+            }
+            seatsLabel.setText("Seats Available: " + seats);
         });
 
+        // CANCEL BUTTON
         cancelButton.addActionListener(e -> {
-            outputArea.append(nameField.getText() + " clicked CANCEL\n");
+            seats++;
+            outputArea.append(nameField.getText() + " canceled ticket\n");
+            seatsLabel.setText("Seats Available: " + seats);
         });
 
         setVisible(true);
